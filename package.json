@@ -1,0 +1,21 @@
+{
+  "name": "wc",
+  "version": "1.0.0",
+  "description": "constructor() {} // компонент создан но не зааттачен в дом, тут задаю модель но не работаю с домом",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx babel webcomponents/shadow-tooltip.webcomponent.js --out-file build/shadow-tooltip.webcomponent.compiled.js",
+    "buildw": "npx babel webcomponents/shadow-tooltip.webcomponent.js --watch --verbose --out-file build/shadow-tooltip.webcomponent.compiled.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  }
+}

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Webcomponents main</title>
+    <script src="./webcomponents/tooltip.webcomponent.js"></script>
+    <script src="./webcomponents/shadow-tooltip.webcomponent.js"></script>
+    <script src="./webcomponents/confirm-link.webcomponent.js"></script>
+    <script src="./webcomponents/show-more.webcomponent.js"></script>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+
+<!--обязательно перед компонентом в доме, чтобы у компонента был доступ
+в примере использую темплейт внутри шадоу дома
+-->
+<template id="outsideTooltipTemplate">
+    <span>(?)</span>
+<!--проджекчу контент, если между тагами компоненты не будет контента
+то появится дефолтный который между слот тагами-->
+    <slot>Some default from slot</slot>
+</template>
+
+
+<p style="margin: 40px;">
+    <m-tooltip text="additional info">Web components</m-tooltip>
+    are awesome
+</p>
+
+<p style="margin: 40px;">
+<!--Если поставить класс _error то применится стиль обозначенный внутри компоненты-->
+    <m-shadow-tooltip text="tooltip info">
+        <img class="img" slot="image" src="./assets/images/cat.jpg" alt="cat" width="50">
+        Another tooltip
+    </m-shadow-tooltip>
+</p>
+
+<!--внутри компоненты через :host-context() могу задать стили в зависимости от того
+ во что вложили компоненту-->
+<p class="m-shadow-tooltip-container" style="margin: 40px;">
+    <m-shadow-tooltip
+            complex-name="Complex"
+            text="tooltip with container"
+    >
+        Tooltip with Container
+    </m-shadow-tooltip>
+</p>
+
+<p><a is="m-confirm-link" href="https://www.google.com">Go away</a></p>
+
+<m-show-more length="50">
+    <img slot="image" src="./assets/images/cat.jpg" alt="cat" width="200">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam culpa cupiditate deleniti distinctio dolores ducimus ea earum eius ex fuga fugit hic ipsam magnam maxime minima modi nisi nulla praesentium, quaerat quasi repudiandae sequi totam ut vel veniam voluptate voluptatum? Aperiam dicta ducimus eaque eius porro quod veritatis voluptatibus.
+</m-show-more>
+</body>
+</html>
+
+
