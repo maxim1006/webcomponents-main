@@ -90,7 +90,7 @@ class ShadowTooltip extends HTMLElement {
 
     // сработает только для атрибутов которые возвращает observedAttributes
     attributeChangedCallback(name, oldValue, newValue) {
-        console.log(name, oldValue, newValue);
+        // console.log(name, oldValue, newValue);
 
         if (oldValue === newValue) {
             return;

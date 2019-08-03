@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>Webcomponents main</title>
-    <script src="./webcomponents/tooltip.webcomponent.js"></script>
-    <script src="./webcomponents/shadow-tooltip.webcomponent.js"></script>
-    <script src="./webcomponents/confirm-link.webcomponent.js"></script>
-    <script src="./webcomponents/show-more.webcomponent.js"></script>
+    <script src="index.js"></script>
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -54,6 +51,42 @@
     <img slot="image" src="./assets/images/cat.jpg" alt="cat" width="200">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aperiam culpa cupiditate deleniti distinctio dolores ducimus ea earum eius ex fuga fugit hic ipsam magnam maxime minima modi nisi nulla praesentium, quaerat quasi repudiandae sequi totam ut vel veniam voluptate voluptatum? Aperiam dicta ducimus eaque eius porro quod veritatis voluptatibus.
 </m-show-more>
+
+<div>
+    <button id="mModalButton">Show modal</button>
+    <m-modal id="mModal">
+        <h2 slot="header" id="mModalOuterHeader">Outer header</h2>
+        <div slot="controls">
+            <button>Cancel</button>
+            <button>Confirm</button>
+        </div>
+    </m-modal>
+</div>
+
+<script>
+    // пример апдейта атрибута
+    mModalButton.addEventListener('click', () => {
+        // могу поменять атрибут
+        mModal.setAttribute('visible', !mModal.visible);
+
+        // могу вызывать публичный метод
+        // mModal.open()
+    });
+
+    // пример добавления или удаления слота чтобы вызвать slotchange
+    setTimeout(() => {
+        // должен удалить и заново вставить слот, чтобы вызвать slotchange
+        document.getElementById("mModalOuterHeader").removeAttribute('slot');
+        document.getElementById("mModalOuterHeader").setAttribute('slot', 'header');
+        document.getElementById("mModalOuterHeader").innerText = "Changed header";
+    }, 3000);
+
+    // пример кастомного события
+    mModal.addEventListener('onCloseEnd', (e) => {
+        console.log('mModal onCloseEnd', e);
+    });
+</script>
+
 </body>
 </html>
 
