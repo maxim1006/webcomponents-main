@@ -11,3 +11,7 @@ attributeChangedCallback() {} // слежу за изменениями атри
 
 ### slotchange
 вызывается когда вставляется или удаляется слот
+
+### Stencil
+npm init stencil // так запускаю стенсил
+
