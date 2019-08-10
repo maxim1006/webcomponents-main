@@ -1,0 +1,25 @@
+.m-tab-panel {
+    width: 300px;
+    overflow: hidden;
+
+    &__header {
+        display: flex;
+
+        &-item {
+            &._active {
+                background-color: blue;
+                color: #fff;
+            }
+        }
+    }
+
+    &__content {
+        display: flex;
+
+        &-item {
+            flex: 1 0 100%;
+            transition: transform 0.2s;
+        }
+    }
+
+}

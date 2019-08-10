@@ -1,17 +1,82 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>Stencil Component Starter</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+    <title>Stencil Component Starter</title>
 
-  <script type="module" src="/build/stencil.esm.js"></script>
-  <script nomodule src="/build/stencil.js"></script>
+    <script type="module" src="/build/stencil.esm.js"></script>
+    <script nomodule src="/build/stencil.js"></script>
+
+    <style>
+        .m-side-bar-outer__list-item {
+            color: #333;
+        }
+    </style>
 
 </head>
 <body>
 
-  <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+<!--  <my-component first="Stencil" last="Don't call me a framework!!"></my-component>-->
+
+<m-side-bar header="Outside side bar title" id="mSideBar">
+
+    <ul class="m-side-bar-outer__list" slot="body">
+        <li class="m-side-bar-outer__list-item">1</li>
+        <li class="m-side-bar-outer__list-item">2</li>
+        <li class="m-side-bar-outer__list-item">3</li>
+        <li class="m-side-bar-outer__list-item">4</li>
+    </ul>
+
+</m-side-bar>
+
+<button type="button" id="mSideBarButton">Open side menu</button>
+
+
+<!--Tab panel-->
+<m-tab-panel id="mTabPanel"></m-tab-panel>
+
+<!--Fetch-->
+<m-fetch></m-fetch>
+
+
+<script>
+
+    // Sidebar
+    setTimeout(() => {
+        document.dispatchEvent(new Event("mSideBarTest"));
+    }, 2000);
+
+    document.addEventListener("mSideBarTest", () => {
+        // stencil can detect attributeChange even after custom event
+        mSideBar.header = "new header after timeout";
+        console.log("mSideBarTest event");
+    });
+
+    mSideBarButton.addEventListener('click', () => {
+        if (!mSideBar.open) {
+            mSideBar.open = true;
+        }
+
+        // так сработает если вызвать публичный метод, а если вызвать его на ините (просто в скрипт то не сработает)
+        // надо вызвать в whenDefined смотри пример ниже
+        // mSideBar.triggerOpen();
+    });
+
+    // так могу заинитить метод когда компонент готов
+    // whenDefined возвращает промис
+    // customElements.whenDefined(mSideBar.localName).then(() => {
+    //     mSideBar.triggerOpen();
+    // });
+
+    // Tab panel
+    mTabPanel.model = {
+        items: [
+            {head: 'head', content: 'content'},
+            {head: 'head', content: 'content'}
+        ]
+    };
+</script>
 
 </body>
 </html>

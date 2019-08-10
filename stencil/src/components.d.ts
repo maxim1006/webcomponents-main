@@ -6,9 +6,22 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  mTabPanelModel,
+} from './components/tab-panel/tab-panel';
 
 export namespace Components {
+  interface MFetch {}
+  interface MSideBar {
+    'header': string;
+    'open': boolean;
+    'triggerOpen': () => Promise<void>;
+  }
+  interface MStock {}
+  interface MTabPanel {
+    'activeTab': number;
+    'model': mTabPanelModel;
+  }
   interface MyComponent {
     /**
     * The first name
@@ -28,17 +41,55 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLMFetchElement extends Components.MFetch, HTMLStencilElement {}
+  var HTMLMFetchElement: {
+    prototype: HTMLMFetchElement;
+    new (): HTMLMFetchElement;
+  };
+
+  interface HTMLMSideBarElement extends Components.MSideBar, HTMLStencilElement {}
+  var HTMLMSideBarElement: {
+    prototype: HTMLMSideBarElement;
+    new (): HTMLMSideBarElement;
+  };
+
+  interface HTMLMStockElement extends Components.MStock, HTMLStencilElement {}
+  var HTMLMStockElement: {
+    prototype: HTMLMStockElement;
+    new (): HTMLMStockElement;
+  };
+
+  interface HTMLMTabPanelElement extends Components.MTabPanel, HTMLStencilElement {}
+  var HTMLMTabPanelElement: {
+    prototype: HTMLMTabPanelElement;
+    new (): HTMLMTabPanelElement;
+  };
+
   interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
   var HTMLMyComponentElement: {
     prototype: HTMLMyComponentElement;
     new (): HTMLMyComponentElement;
   };
   interface HTMLElementTagNameMap {
+    'm-fetch': HTMLMFetchElement;
+    'm-side-bar': HTMLMSideBarElement;
+    'm-stock': HTMLMStockElement;
+    'm-tab-panel': HTMLMTabPanelElement;
     'my-component': HTMLMyComponentElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface MFetch extends JSXBase.HTMLAttributes<HTMLMFetchElement> {}
+  interface MSideBar extends JSXBase.HTMLAttributes<HTMLMSideBarElement> {
+    'header'?: string;
+    'open'?: boolean;
+  }
+  interface MStock extends JSXBase.HTMLAttributes<HTMLMStockElement> {}
+  interface MTabPanel extends JSXBase.HTMLAttributes<HTMLMTabPanelElement> {
+    'activeTab'?: number;
+    'model'?: mTabPanelModel;
+  }
   interface MyComponent extends JSXBase.HTMLAttributes<HTMLMyComponentElement> {
     /**
     * The first name
@@ -55,6 +106,10 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
+    'm-fetch': MFetch;
+    'm-side-bar': MSideBar;
+    'm-stock': MStock;
+    'm-tab-panel': MTabPanel;
     'my-component': MyComponent;
   }
 }
