@@ -1,4 +1,4 @@
-import {Component, Prop, h} from "@stencil/core";
+import {Component, Prop, h, EventEmitter, Event} from "@stencil/core";
 
 
 export interface mTabPanelModel {
@@ -27,6 +27,9 @@ export class TabPanel {
 
     @Prop()
     activeTab: number = 0;
+
+    @Event()
+    mTabPanelChange: EventEmitter;
 
     render() {
         if (this.model
@@ -70,7 +73,11 @@ export class TabPanel {
         );
     }
 
-    onTabHeaderClick = (index: number) => {
+    onTabHeaderClick = (index: number, event: Event) => {
         this.activeTab = index;
+        this.mTabPanelChange.emit({
+            originalEvent: event,
+            tabIndex: index,
+        });
     }
 }

@@ -1,4 +1,4 @@
-import {Component, h, Element, State} from "@stencil/core";
+import {Component, h, Element, State, Prop, Watch} from "@stencil/core";
 import axios from "axios";
 import {MFetchRow} from "./fetch-row";
 
@@ -17,55 +17,86 @@ export class MFetch {
     @State()
     familyData: any;
 
-    connectedCallback() {
-        // так как не прошел первый render то тут будет undefined в отличие от вебкомпонент
-        console.log(this.selectElement);
+    @State()
+    loading: boolean;
+
+    @State()
+    filteredFamilyData: any = [];
+
+    @Prop({
+        reflect: true
+    })
+    familyMember: string;
+
+    @Prop()
+    watchedProp: string;
+
+    @Watch('watchedProp')
+    watchedPropChanged(newValue: string, oldValue: string) {
+        console.log('watchedProp ', newValue, oldValue);
     }
 
+    connectedCallback() {
+        // так как не прошел первый render то тут будет undefined в отличие от вебкомпонент
+        console.log(this.selectElement, " connectedCallback");
+    }
+
+    // вызовется 1 раз до первого рендера, тут работаю с моделью
+    componentWillLoad() {
+        console.log(this.selectElement, " componentWillLoad");
+    }
+
+    // вызовется 1 раз после первого рендера
     componentDidLoad() {
         // тут элемент уже будет доступен
-        console.log(this.selectElement);
+        console.log(this.selectElement, " componentDidLoad");
+    }
+
+    // тут удаляю все хендлеры, подписки, таймеры
+    componentDidUnload() {
+    }
+
+    // вызовется перед тем как проперти или стейт поменяется
+    componentWillUpdate() {
+        console.log("componentWillUpdate");
+    }
+
+    // вызовется после того как проперти или стейт поменяется
+    componentDidUpdate() {
+        console.log("componentDidUpdate");
     }
 
     render() {
-        const familyTableHead = <thead>
-            <tr>
-                <td>Name</td>
-                <td>Age</td>
-            </tr>
-        </thead>;
-
-        let familyTableBody, familyTableBodyRows;
-
-        if (Array.isArray(this.familyData)) {
-            familyTableBodyRows = this.familyData.map(({name, age}) => {
-                return <MFetchRow name={name} age={age} />
-            })
-        } else if (this.familyData) {
-            const {name, age} = this.familyData;
-            familyTableBodyRows =
-                <MFetchRow name={name} age={age} />
-        }
-
-        familyTableBody =
-        <tbody>
-            {familyTableBodyRows}
-        </tbody>;
-
+        console.log('fetch render');
+        const familyTableHead = this.getHead();
+        const familyTableBody = this.getBody();
+        const options = this.getOptions();
         const familyTable = this.familyData ? <table>{familyTableHead}{familyTableBody}</table> : null;
+        const loader = this.loading ? <m-spinner></m-spinner> : null;
 
         return [
             <form novalidate onSubmit={this.fetchFamilyData} name={'fetchForm'}>
                 {/*так нахожу по ссылке элемент*/}
                 <select id={'select'} ref={el => this.selectElement = el}>
-                    <option value="father">father</option>
-                    <option value="mother">mother</option>
-                    <option value="children">children</option>
+                    {options}
                 </select>
                 <button type={"submit"}>get info</button>
             </form>,
-            familyTable
+            <m-fetch-search onInputProp={this.onInput.bind(this)}/>,
+            familyTable,
+            loader
         ];
+    }
+
+    onInput(event) {
+        if (Array.isArray(this.familyData)) {
+            this.filteredFamilyData = this.familyData.filter(item => {
+                const name = item.name.toLowerCase();
+                const value = event.target.value;
+
+                return name.includes(value) && item;
+            });
+        }
     }
 
     fetchFamilyData = async (event: Event) => {
@@ -78,6 +109,8 @@ export class MFetch {
         //
         const type = (this.selectElement as HTMLSelectElement).value;
 
+        this.loading = true;
+
         // axios
         try {
             const {data} = await axios.post("http://localhost:3000/api/family", {
@@ -87,8 +120,15 @@ export class MFetch {
             });
 
             this.familyData = data;
+
+            if (Array.isArray(data)) {
+                this.filteredFamilyData = data.slice();
+            }
+
+            this.loading = false;
         } catch (e) {
             console.log("fetchFamilyData error ", e);
+            this.loading = false;
         }
 
         // fetch
@@ -111,4 +151,45 @@ export class MFetch {
 
     }
 
+    getHead() {
+        return (
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Age</td>
+            </tr>
+            </thead>
+        );
+    }
+
+    getBody() {
+        let familyTableBodyRows;
+
+        if (Array.isArray(this.familyData)) {
+            familyTableBodyRows = this.filteredFamilyData
+                .map(({name, age}) => {
+                    return <MFetchRow name={name} age={age} />
+                });
+        } else if (this.familyData) {
+            const {name, age} = this.familyData;
+            familyTableBodyRows =
+                <MFetchRow name={name} age={age} />
+        }
+
+        return (
+            <tbody>
+                {familyTableBodyRows}
+            </tbody>
+        );
+    }
+
+    getOptions() {
+        return ['all', 'father', 'mother', 'children'].map((item) => {
+            if (item === this.familyMember) {
+                return <option value={item} selected>{item}</option>
+            } else {
+                return <option value={item}>{item}</option>
+            }
+        });
+    }
 }

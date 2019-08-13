@@ -31,6 +31,7 @@ export class MSideBar {
     })
     open: boolean;
 
+    // это публичный метод, обязательно должен писать с async
     @Method()
     async triggerOpen() {
         this.open = true;

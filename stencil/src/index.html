@@ -36,8 +36,8 @@
 <!--Tab panel-->
 <m-tab-panel id="mTabPanel"></m-tab-panel>
 
-<!--Fetch-->
-<m-fetch></m-fetch>
+<!--Fetch контейнер компонент с кучей примеров-->
+<m-fetch family-member="mother" watched-prop="1"></m-fetch>
 
 
 <script>
@@ -76,6 +76,19 @@
             {head: 'head', content: 'content'}
         ]
     };
+
+    // пример подписки на кастомный эвент
+    mTabPanel.addEventListener('mTabPanelChange', (e) => {
+        console.log(e, ' mTabPanelChange');
+    });
+
+
+
+    // ловлю эвент mFetchSearchInputEmit с компонента m-fetch-search в details лежит кастомная
+    // дата, которую эмичу из m-fetch-search
+    document.addEventListener("mFetchSearchInputEmit", (event) => {
+        console.log(event.detail);
+    });
 </script>
 
 </body>
