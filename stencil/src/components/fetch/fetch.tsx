@@ -4,6 +4,7 @@ import {MFetchRow} from "./fetch-row";
 
 @Component({
     tag: 'm-fetch',
+    styleUrl: 'fetch.scss',
     shadow: true
 })
 export class MFetch {
