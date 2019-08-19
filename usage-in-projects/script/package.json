@@ -1,0 +1,33 @@
+{
+  "name": "maxim1006-wc",
+  "version": "0.0.1",
+  "description": "maxim1006 Stencil Component Starter",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/stencil/stencil.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build --docs",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "server": "tsc-watch ./server/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\" --onFailure \"echo Beep! Compilation Failed\" --compiler typescript/bin/tsc"
+  },
+  "devDependencies": {
+    "@stencil/core": "^1.2.4",
+    "@stencil/sass": "^1.0.1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^12.7.1",
+    "typescript": "^3.5.3"
+  }
+}

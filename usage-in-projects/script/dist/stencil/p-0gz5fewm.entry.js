@@ -1,0 +1,1 @@
+import{r as t}from"./p-693bb6ac.js";const s=class{constructor(s){t(this,s)}static get style(){return""}};export{s as m_stock};

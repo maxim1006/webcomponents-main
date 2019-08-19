@@ -1,0 +1,18 @@
+{
+  "entries": [
+    "components/fetch/fetch-search.js",
+    "components/fetch/fetch.js",
+    "components/my-component/my-component.js",
+    "components/stock/stock.js",
+    "components/spinner/spinner.js",
+    "components/tab-panel/tab-panel.js",
+    "components/side-bar/side-bar.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "1.2.4",
+    "typescriptVersion": "3.5.3"
+  },
+  "collections": [],
+  "bundles": []
+}

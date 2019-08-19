@@ -1,0 +1,1 @@
+System.register(["./p-69472d8e.system.js"],function(e){"use strict";var t;return{setters:[function(e){t=e.r}],execute:function(){var r=e("m_stock",function(){function e(e){t(this,e)}Object.defineProperty(e,"style",{get:function(){return""},enumerable:true,configurable:true});return e}())}}});
